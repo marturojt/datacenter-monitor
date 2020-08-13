@@ -1,0 +1,25 @@
+class connMysql:
+    """
+    connMysql - Datos de conexión al motor de base de datos
+    """
+    address = 'host address'
+    user = 'username'
+    passw = 'password'
+    db = 'databasename'
+
+
+class keyQuiubas:
+    """
+    keyQuiubas - Datos de acceso al proveedor Quiubas
+    """
+    API_KEY = 'your quiubas key'
+    API_SECRET = 'your quiubas secret'
+    url = 'https://api.quiubas.com/sms'
+    numeros_alerta = ['phone number 1', 'phone number 2', 'phone number n']
+
+class keyTelegram:
+    """
+    keyTelegram - Llave de acceso al bot de telegram
+    """
+    BOT_KEY = 'bot key'
+    chatID = 'chat id'
