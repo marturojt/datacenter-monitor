@@ -15,3 +15,10 @@ Instalación de la base de datos:
 
         mysql -u USUARIO -p NOMBREDELABASE < Database/database.sql
 
+NOTA: De forma inicial es necesario cargar en la tabla tbMetodosBot los siguientes valores, estos valores estan relacionados con el procedimiento almacenado llamado 'spMetodosBOT'
+
+| idtbMetodosBot | nombreMetodo |
+| --- | --- |
+| 1 | Temp. Actual |
+| 2 | Temp. Promedio |
+| 3 | Temp. Máxima |
