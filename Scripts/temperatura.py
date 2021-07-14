@@ -1,13 +1,16 @@
+import logging                  # Logging library
+
+# Configuracion del log
+logging.basicConfig(filename='/home/pi/temperatura.log',
+                    level=logging.INFO,
+                    format='%(asctime)s - %(levelname)s - %(message)s')
+
 import time                     # Time library
 import board                    # Raspberry Pi GPIO management
 import busio                    # IO library
 import adafruit_bme280          # BME280 Sensor library
-import logging                  # Logging library
 from db import dbOperations     # Database classes
 from alertas import envioAlertas    # Envio de alertas
-
-# Configuracion del log
-logging.basicConfig(filename='temperatura.log', filemode='w', format='%(asctime)s - %(levelname)s - %(message)s')
 
 def leerInsertar(vTiempo, vIteraciones, vTemperaturaReferencia):
     """
@@ -59,6 +62,7 @@ def leerInsertar(vTiempo, vIteraciones, vTemperaturaReferencia):
             else:
                 # Validacion de temperatura
                 validaRangoTemp(max(Temp),vTemperaturaReferencia)
+                logging.info("La temperatura actual es: {temper}".format(temper=max(Temp)))
                 db = dbOperations()
                 query = "CALL spInsertaMediciones({temp}, {humi}, {pres}, {alti});".format(temp=max(Temp), humi=max(Humi), pres=max(Pres), alti=max(Alti))
                 db.execute(query)
@@ -90,7 +94,8 @@ def main():
     """
     tiempo = 5                      # Tiempo de espera entre cada lectura
     iteraciones = 5                 # Número de lecturas a realizar
-    temperaturaReferencia = 25      # Temperatura máxima a la que debe de estar el centro de datos
+    temperaturaReferencia = 30      # Temperatura máxima a la que debe de estar el centro de datos
+    logging.info("Inicia ejecucion del programa. Temp de referencia: {temp}. Iteraciones: {iter}. Tiempo entre iteraciones: {tempo}".format(temp=tiempo, iter=iteraciones, tempo=tiempo))
     leerInsertar(vTiempo=tiempo, vIteraciones=iteraciones, vTemperaturaReferencia=temperaturaReferencia)
 
 if __name__ == "__main__":

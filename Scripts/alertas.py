@@ -1,3 +1,10 @@
+import logging                  # Logging library
+
+# Configuracion del log
+logging.basicConfig(filename='/home/pi/temperatura.log',
+                    level=logging.INFO,
+                    format='%(asctime)s - %(levelname)s - %(message)s')
+
 from data import keyQuiubas, keyTelegram    # Clases con datos de conexion de telegram y quiubas
 from telegram.bot import Bot                # Telegram library
 import requests                             # HTTP Methods
@@ -29,7 +36,11 @@ class envioAlertas():
         """
         for telefono in self.numeros:
             smsData = {'to_number':telefono,'message':vMensaje}
-            requests.post(self.url, data = smsData, auth = (self.API_KEY, self.API_SECRET))
+            resSMS = requests.post(self.url, data = smsData, auth = (self.API_KEY, self.API_SECRET))
+            if resSMS.status_code != 200:
+                logging.error("Error en envio de SMS = {}".format(resSMS.text))
+            else:
+                logging.info(resSMS.text)
 
     def envioTelegram(self, vMensaje):
         """
